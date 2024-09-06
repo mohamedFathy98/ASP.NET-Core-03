@@ -7,4 +7,8 @@
     <RootNamespace>ASP.NET_Core_03</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+  </ItemGroup>
+
 </Project>

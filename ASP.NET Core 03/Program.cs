@@ -1,3 +1,5 @@
+using DataAccessLayer.Data;
+
 namespace ASP.NET_Core_03
 {
     public class Program
@@ -8,7 +10,7 @@ namespace ASP.NET_Core_03
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<DataContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

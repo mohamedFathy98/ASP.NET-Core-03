@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Data
 {
-    internal class DataContext : DbContext
+    public class DataContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("ConnectionString");
         }
-        public DbSet<Department> Department { get; set; }
+        public DbSet<Department> Departments { get; set; }
     }
 }
