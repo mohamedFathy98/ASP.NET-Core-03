@@ -31,10 +31,33 @@ namespace BusinessLogicLayer.Repositories
 
 
 
-        //public Department Get(int id)
+        public Department? Get(int id) => _dataContext.Departments.Find(id);
+
+
         //{
-        //    _dataContext.Departments.FirstOrDefault(id);
+        //return   _dataContext.Departments.FirstOrDefault(department => department.Id == id);
         //}
+        public IEnumerable<Department> GetAll(int id) => _dataContext.Departments.ToList();
+
+        public int Create (Department entity)
+        {
+            _dataContext.Departments.Add(entity);
+            return _dataContext.SaveChanges();
+        }
+
+        public int Update (Department entity)
+        {
+            _dataContext.Departments.Update(entity);
+            return _dataContext.SaveChanges();
+        }
+
+        public int Delete (Department entity)
+        {
+            _dataContext.Departments.Remove(entity);
+            return _dataContext.SaveChanges();
+        }
+
+
 
     }
 }
