@@ -31,10 +31,10 @@ namespace BusinessLogicLayer.Repositories
 
 
 
-        public Department Get(int id)
-        {
-            _dataContext.Departments.FirstOrDefault(id);
-        }
+        //public Department Get(int id)
+        //{
+        //    _dataContext.Departments.FirstOrDefault(id);
+        //}
 
     }
 }

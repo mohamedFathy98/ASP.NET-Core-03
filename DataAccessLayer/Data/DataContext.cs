@@ -10,10 +10,14 @@ namespace DataAccessLayer.Data
 {
     public class DataContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("ConnectionString");
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("ConnectionString");
+        //}
         public DbSet<Department> Departments { get; set; }
     }
 }
