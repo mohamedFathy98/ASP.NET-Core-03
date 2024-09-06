@@ -24,7 +24,7 @@ namespace ASP.NET_Core_03
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
