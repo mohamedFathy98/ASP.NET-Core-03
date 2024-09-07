@@ -34,5 +34,16 @@ namespace ASP.NET_Core_03.Controllers
             _Rep.Create(department);
             return RedirectToAction(nameof(Index));
         }
+
+
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var department = _Rep.Get(id.Value);
+            if (department == null) return NotFound();
+            return View(department);
+        }
+
+
     }
 }
