@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Repositories;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET_Core_03.Controllers
@@ -19,6 +20,19 @@ namespace ASP.NET_Core_03.Controllers
             var department = _Rep.GetAll();
 
             return View(department); //All dep
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Department department)
+        {
+            //server side validation
+            if (!ModelState.IsValid) return View(department);
+            _Rep.Create(department);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
