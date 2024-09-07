@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Repositories
 {
-    internal class DepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
-         /**
-          * Get , Get All , Create , Update , Delete
-         */
+
+        /**
+         * Get , Get All , Create , Update , Delete
+        */
         // private DataContext dataContext = new DataContext(); //hard coded Dependancy 
         //Dependancy Injection
         //Method Injection => Method([fromServices]DataContext dataContext}
@@ -39,19 +40,19 @@ namespace BusinessLogicLayer.Repositories
         //}
         public IEnumerable<Department> GetAll(int id) => _dataContext.Departments.ToList();
 
-        public int Create (Department entity)
+        public int Create(Department entity)
         {
             _dataContext.Departments.Add(entity);
             return _dataContext.SaveChanges();
         }
 
-        public int Update (Department entity)
+        public int Update(Department entity)
         {
             _dataContext.Departments.Update(entity);
             return _dataContext.SaveChanges();
         }
 
-        public int Delete (Department entity)
+        public int Delete(Department entity)
         {
             _dataContext.Departments.Remove(entity);
             return _dataContext.SaveChanges();
