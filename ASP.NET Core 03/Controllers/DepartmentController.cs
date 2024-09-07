@@ -5,11 +5,13 @@ namespace ASP.NET_Core_03.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepository _Rep;
-        public DepartmentController(IDepartmentRepository departmentRepository)
+        IDepartmentRepository _Rep;
+
+        public DepartmentController(IDepartmentRepository rep)
         {
-            _Rep = departmentRepository;
+            _Rep = rep;
         }
+
         [HttpGet]
         public IActionResult Index()
         {

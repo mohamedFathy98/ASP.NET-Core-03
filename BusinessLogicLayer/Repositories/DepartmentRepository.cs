@@ -38,7 +38,7 @@ namespace BusinessLogicLayer.Repositories
         //{
         //return   _dataContext.Departments.FirstOrDefault(department => department.Id == id);
         //}
-        public IEnumerable<Department> GetAll(int id) => _dataContext.Departments.ToList();
+        public IEnumerable<Department> GetAll() => _dataContext.Departments.ToList();
 
         public int Create(Department entity)
         {
