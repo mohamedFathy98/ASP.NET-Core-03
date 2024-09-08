@@ -1,3 +1,7 @@
+using BusinessLogicLayer.Repositories;
+using DataAccessLayer.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ASP.NET_Core_03
 {
     public class Program
@@ -8,6 +12,12 @@ namespace ASP.NET_Core_03
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            //builder.Services.AddScoped<DataContext>();
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
             var app = builder.Build();
 
@@ -24,7 +34,7 @@ namespace ASP.NET_Core_03
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
