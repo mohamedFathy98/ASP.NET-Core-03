@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.Repositories;
+﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 

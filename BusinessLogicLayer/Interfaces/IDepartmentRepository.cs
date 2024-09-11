@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Models;
 
-namespace BusinessLogicLayer.Repositories
+namespace BusinessLogicLayer.Interfaces
 {
     public interface IDepartmentRepository
     {
