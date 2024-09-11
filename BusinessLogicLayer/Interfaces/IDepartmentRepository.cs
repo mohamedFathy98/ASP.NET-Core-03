@@ -1,13 +1,8 @@
-﻿using DataAccessLayer.Models;
-
+﻿
 namespace BusinessLogicLayer.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IGenaricRepository<Department>
     {
-        int Create(Department entity);
-        int Delete(Department entity);
-        Department? Get(int id);
-        IEnumerable<Department> GetAll();
-        int Update(Department entity);
+        
     }
 }

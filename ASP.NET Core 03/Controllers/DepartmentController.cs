@@ -6,9 +6,9 @@ namespace ASP.NET_Core_03.Controllers
 {
     public class DepartmentController : Controller
     {
-        IDepartmentRepository _Rep;
+      private IGenaricRepository<Department> _Rep;
 
-        public DepartmentController(IDepartmentRepository rep)
+        public DepartmentController(IGenaricRepository<Department> rep)
         {
             _Rep = rep;
         }
