@@ -1,0 +1,20 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="mt-2">Create New Employee</h1>
+<form class="mt-3 shadow" asp-action="Create">
+
+    <partial name="PartialView/CreatEditPartial"></partial>
+    <div class="mt-2 ms-2">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-danger ms-2" asp-action="Index">Cancel</a>
+    </div>
+</form>
+@section Validation {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
