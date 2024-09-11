@@ -36,27 +36,17 @@ namespace ASP.NET_Core_03.Controllers
         }
 
 
-        public IActionResult Details(int? id)
-        {
-            if (!id.HasValue) return BadRequest();
-            var department = _Rep.Get(id.Value);
-            if (department == null) return NotFound();
-            return View(department);
-        }
+        public IActionResult Details(int? id)=> DepartmentControlHandler(id, nameof(Details));
+       
         
       
-        public IActionResult Edit(int? id)
-        {
-            if (!id.HasValue) return BadRequest();
-            var department = _Rep.Get(id.Value);
-            if (department is null) return NotFound();
-            return View(department);
+        public IActionResult Edit(int? id) => DepartmentControlHandler(id, nameof(Edit));
 
-        }
 
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, Department department)
         {
             if (id != department.Id) return BadRequest();
@@ -74,14 +64,7 @@ namespace ASP.NET_Core_03.Controllers
             }
             return View(department);
         }
-        public IActionResult Delete(int? id)
-        {
-            if (!id.HasValue) return BadRequest();
-            var department = _Rep.Get(id.Value);
-            if (department is null) return NotFound();
-            return View(department);
-
-        }
+        public IActionResult Delete(int? id) => DepartmentControlHandler(id , nameof(Delete));
 
         //[HttpPost]
         //public IActionResult Delete([FromRoute] int id, Department department)
@@ -120,6 +103,15 @@ namespace ASP.NET_Core_03.Controllers
             
             }
             return View(department);
+        }
+
+        private IActionResult DepartmentControlHandler(int? id , string viewName)
+        {
+
+            if (!id.HasValue) return BadRequest();
+            var department = _Rep.Get(id.Value);
+            if (department is null) return NotFound();
+            return View(viewName, department);
         }
     }
 }
