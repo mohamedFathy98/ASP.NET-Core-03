@@ -1,3 +1,4 @@
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Repositories;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ namespace ASP.NET_Core_03
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeReposItory, EmployeeReposItory>();  
+            //builder.Services.AddScoped<IGenaricRepository<Department>, GenaricRepository<Department>>();
 
             var app = builder.Build();
 
