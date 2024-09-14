@@ -22,6 +22,7 @@
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Name)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Age)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Salary)</th>
+                <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Department)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Address)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Email)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Phone)</th>
@@ -40,6 +41,7 @@
                     <td>@item.Name</td>
                     <td>@item.Age</td>
                     <td>@Html.DisplayFor(e=>item.Salary)</td>
+                    <td>@item.Department?.Name</td>
                     <td>@item.Address</td>
                     <td>@Html.DisplayFor(e => item.Email)</td>
                     

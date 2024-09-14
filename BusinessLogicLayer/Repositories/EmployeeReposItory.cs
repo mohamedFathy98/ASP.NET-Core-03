@@ -20,5 +20,10 @@ namespace BusinessLogicLayer.Repositories
         {
             return _dbSet.Where(e => e.Address.ToLower() == Address.ToLower()).ToList();
         }
+
+        public IEnumerable<Employee> GetAllwithDepartment()
+        {
+            return _dbSet.Include(e => e.Department).ToList();
+        }
     }
 }

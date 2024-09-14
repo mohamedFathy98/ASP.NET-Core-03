@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -9,11 +10,11 @@ namespace ASP.NET_Core_03.Controllers
        
 
         private readonly IEmployeeReposItory _employeeRepository;
-        private readonly IDepartmentRepository departmentRepository ;
+        private readonly IDepartmentRepository _departmentRepository ;
         public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
         {
             _employeeRepository = employeeRepository;
-            departmentRepository = departmentRepository;
+            _departmentRepository = departmentRepository;
         }
         public IActionResult Index()
         {
@@ -22,13 +23,13 @@ namespace ASP.NET_Core_03.Controllers
             //C# Feature ViewBag
             ViewBag.Message = "Created Successfuly";
 
-            var employees = _employeeRepository.GetAll();
+            var employees = _employeeRepository.GetAllwithDepartment();
             return View(employees);
         }
         [IgnoreAntiforgeryToken]
         public IActionResult Create()
         {
-            var depatrtments = departmentRepository.GetAll();
+            var depatrtments = _departmentRepository.GetAll();
             SelectList listItems = new SelectList(depatrtments,"Id","Name");
             ViewBag.Departments = listItems;
             return View();
@@ -95,6 +96,12 @@ namespace ASP.NET_Core_03.Controllers
         }
         private IActionResult EmployeeContollorModeler(int? id, string viewName)
         {
+            if (viewName == nameof(Edit))
+            {
+                var depatrtments = _departmentRepository.GetAll();
+                SelectList listItems = new SelectList(depatrtments, "Id", "Name");
+                ViewBag.Departments = listItems;
+            }
             if (!id.HasValue) return BadRequest();
             var employee = _employeeRepository.Get(id.Value);
             if (employee is null) return NotFound();
