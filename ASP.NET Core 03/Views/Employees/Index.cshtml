@@ -11,6 +11,13 @@
 <div>
     <a class="btn btn-primary mt-2" asp-action="Create">Create New Employee</a>
 </div>
+<h1 class="text-center ">All Emplyees</h1>
+<div>
+    <form asp-action="Index" method="get" class="d-flex mt-2 " role="search">
+        <input class="form-control mx-2 w-75" type="search" placeholder="Search" aria-label="Search" name="searchValue" required>
+        <button class="btn btn-outline-success " type="submit">Search</button>
+    </form>
+</div>
 @if (Model.Any())
 {
     <h1 class="text-center ">All Emplyees</h1>

@@ -13,18 +13,27 @@ namespace ASP.NET_Core_03.Controllers
         private readonly IEmployeeReposItory _employeeRepository;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IMapper _mapper;
+
         
         public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
         {
             _employeeRepository = employeeRepository;
             _departmentRepository = departmentRepository;
         }
-        public IActionResult Index()
+        public IActionResult Index(string? searchValue)
         {
             //ViewData => Dictionary<String.Object>
             // ViewData["Message"] = new Employee { Name="Loolz"};
             //C# Feature ViewBag
-            ViewBag.Message = "Created Successfuly";
+            //ViewBag.Message = "Created Successfuly";
+            var employees = Enumerable.Empty<Employee>();
+            if (string.IsNullOrWhiteSpace(searchValue))
+            {
+                employees = _employeeRepository.GetAllwithDepartment();
+
+            }
+            else employees = _employeeRepository.GetAll(searchValue);
+           
 
             var employeeviewmodel = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
             return View(employeeviewmodel);
