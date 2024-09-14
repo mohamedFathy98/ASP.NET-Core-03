@@ -10,16 +10,23 @@ namespace ASP.NET_Core_03.Controllers
     {
 
 
-        private readonly IEmployeeReposItory _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        //private readonly IEmployeeReposItory _employeeRepository;
+        //private readonly IDepartmentRepository _departmentRepository;
         private readonly IMapper _mapper;
-
-        
-        public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public EmployeesController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _employeeRepository = employeeRepository;
-            _departmentRepository = departmentRepository;
+
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
+
+
+        //public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
+        //{
+        //    _employeeRepository = employeeRepository;
+        //    _departmentRepository = departmentRepository;
+        //}
         public IActionResult Index(string? searchValue)
         {
             //ViewData => Dictionary<String.Object>
@@ -29,10 +36,10 @@ namespace ASP.NET_Core_03.Controllers
             var employees = Enumerable.Empty<Employee>();
             if (string.IsNullOrWhiteSpace(searchValue))
             {
-                employees = _employeeRepository.GetAllwithDepartment();
+                employees = _unitOfWork.Employees.GetAllwithDepartment();
 
             }
-            else employees = _employeeRepository.GetAll(searchValue);
+            else employees = _unitOfWork.Employees.GetAll(searchValue);
            
 
             var employeeviewmodel = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
@@ -41,7 +48,7 @@ namespace ASP.NET_Core_03.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult Create()
         {
-            var depatrtments = _departmentRepository.GetAll();
+            var depatrtments = _unitOfWork.Departments.GetAll();
             SelectList listItems = new SelectList(depatrtments,"Id","Name");
             ViewBag.Departments = listItems;
             return View();
@@ -52,7 +59,7 @@ namespace ASP.NET_Core_03.Controllers
         {
             //server side Validation
             if (!ModelState.IsValid) return View(employee);
-            _employeeRepository.Create(employee);
+            _unitOfWork.Employees.Create(employee);
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Details(int? id) => EmployeeContollorModeler(id, nameof(Details));
@@ -62,7 +69,7 @@ namespace ASP.NET_Core_03.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, Employee employeeVM)
+        public IActionResult Edit([FromRoute] int id, EmployeeViewModel employeeVM)
         {
             if (id != employeeVM.Id) return BadRequest();
             if (ModelState.IsValid)
@@ -70,7 +77,9 @@ namespace ASP.NET_Core_03.Controllers
                 try
                 {
                     var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                    if (_employeeRepository.Update(employeeVM) > 0)
+
+                    _unitOfWork.Employees.Update(employee);
+                    if (_unitOfWork.SavaChanages() > 0)
                     {
                         TempData["Message"] = "Employee Updated Successfuly";
                         return RedirectToAction(nameof(Index));
@@ -91,13 +100,13 @@ namespace ASP.NET_Core_03.Controllers
         public IActionResult ConfirmDelete(int? id)
         {
             if (!id.HasValue) return BadRequest();
-            var employee = _employeeRepository.Get(id.Value);
+            var employee = _unitOfWork.Employees.Get(id.Value);
             if (employee is null) return NotFound();
 
             {
                 try
                 {
-                    _employeeRepository.Delete(employee);
+                    _unitOfWork.Employees.Delete(employee);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -111,12 +120,12 @@ namespace ASP.NET_Core_03.Controllers
         {
             if (viewName == nameof(Edit))
             {
-                var depatrtments = _departmentRepository.GetAll();
+                var depatrtments = _unitOfWork.Departments.GetAll();
                 SelectList listItems = new SelectList(depatrtments, "Id", "Name");
                 ViewBag.Departments = listItems;
             }
             if (!id.HasValue) return BadRequest();
-            var employee = _employeeRepository.Get(id.Value);
+            var employee = _unitOfWork.Employees.Get(id.Value);
             if (employee is null) return NotFound();
             //var employeeVM = new EmployeeViewModel
             //{
