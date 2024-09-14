@@ -1,34 +1,43 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ASP.NET_Core_03.Controllers
 {
     public class EmployeesController : Controller
     {
+       
 
-        private IEmployeeReposItory _employeeRepository;
-        public EmployeesController(IEmployeeReposItory employeeRepository)
+        private readonly IEmployeeReposItory _employeeRepository;
+        private readonly IDepartmentRepository departmentRepository ;
+        public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
         {
             _employeeRepository = employeeRepository;
+            departmentRepository = departmentRepository;
         }
         public IActionResult Index()
         {
             //ViewData => Dictionary<String.Object>
             // ViewData["Message"] = new Employee { Name="Loolz"};
             //C# Feature ViewBag
-            //ViewBag.Message = "Created Successfuly";
+            ViewBag.Message = "Created Successfuly";
 
             var employees = _employeeRepository.GetAll();
             return View(employees);
         }
+        [IgnoreAntiforgeryToken]
         public IActionResult Create()
         {
+            var depatrtments = departmentRepository.GetAll();
+            SelectList listItems = new SelectList(depatrtments,"Id","Name");
+            ViewBag.Departments = listItems;
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Employee employee)
         {
+            //server side Validation
             if (!ModelState.IsValid) return View(employee);
             _employeeRepository.Create(employee);
             return RedirectToAction(nameof(Index));
