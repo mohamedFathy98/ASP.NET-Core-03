@@ -46,12 +46,15 @@ namespace ASP.NET_Core_03.Controllers
             return View(employeeviewmodel);
         }
         [IgnoreAntiforgeryToken]
-        public IActionResult Create()
+        public IActionResult Create(EmployeeViewModel employeeVM)
         {
-            var depatrtments = _unitOfWork.Departments.GetAll();
-            SelectList listItems = new SelectList(depatrtments,"Id","Name");
-            ViewBag.Departments = listItems;
-            return View();
+            if (!ModelState.IsValid) return View(employeeVM);
+            if (employeeVM.Image is not null)
+                employeeVM.ImageName = DocumentSetting.UoloadFile(employeeVM.Image, "Image");
+            var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+            _unitOfWork.Employees.Create(employee);
+            _unitOfWork.SavaChanages();
+            return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,8 +79,9 @@ namespace ASP.NET_Core_03.Controllers
             {
                 try
                 {
+                    if (employeeVM.Image is not null)
+                        employeeVM.ImageName = DocumentSetting.UoloadFile(employeeVM.Image, "Image");
                     var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-
                     _unitOfWork.Employees.Update(employee);
                     if (_unitOfWork.SavaChanages() > 0)
                     {
@@ -106,7 +110,13 @@ namespace ASP.NET_Core_03.Controllers
             {
                 try
                 {
+
                     _unitOfWork.Employees.Delete(employee);
+                    if (_unitOfWork.SavaChanages() > 0 && employee.ImageName is not null)
+                    {
+                        DocumentSetting.DeleteFile("Image", employee.ImageName);
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)

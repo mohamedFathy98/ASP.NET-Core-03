@@ -25,7 +25,7 @@
         <thead>
             <tr>
 
-                
+                <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Image)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Name)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Age)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Salary)</th>
@@ -44,7 +44,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    
+                    <td><img src="~/Files/Image/@item.ImageName" class="w-50 h-50 rounded" /></td>
                     <td>@item.Name</td>
                     <td>@item.Age</td>
                     <td>@Html.DisplayFor(e=>item.Salary)</td>
