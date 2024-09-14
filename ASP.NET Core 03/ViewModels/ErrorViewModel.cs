@@ -1,4 +1,4 @@
-namespace ASP.NET_Core_03.Models
+namespace ASP.NET_Core_03.ViewModels
 {
     public class ErrorViewModel
     {

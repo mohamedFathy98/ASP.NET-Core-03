@@ -2,3 +2,5 @@
 global using DataAccessLayer.Data;
 global using DataAccessLayer.Models;
 global using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+

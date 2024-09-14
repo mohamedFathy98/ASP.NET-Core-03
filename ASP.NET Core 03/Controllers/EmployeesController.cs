@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Repositories;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,10 +8,12 @@ namespace ASP.NET_Core_03.Controllers
 {
     public class EmployeesController : Controller
     {
-       
+
 
         private readonly IEmployeeReposItory _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository ;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _mapper;
+        
         public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
         {
             _employeeRepository = employeeRepository;
@@ -23,8 +26,8 @@ namespace ASP.NET_Core_03.Controllers
             //C# Feature ViewBag
             ViewBag.Message = "Created Successfuly";
 
-            var employees = _employeeRepository.GetAllwithDepartment();
-            return View(employees);
+            var employeeviewmodel = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
+            return View(employeeviewmodel);
         }
         [IgnoreAntiforgeryToken]
         public IActionResult Create()
@@ -50,14 +53,15 @@ namespace ASP.NET_Core_03.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, Employee employee)
+        public IActionResult Edit([FromRoute] int id, Employee employeeVM)
         {
-            if (id != employee.Id) return BadRequest();
+            if (id != employeeVM.Id) return BadRequest();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (_employeeRepository.Update(employee) > 0)
+                    var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+                    if (_employeeRepository.Update(employeeVM) > 0)
                     {
                         TempData["Message"] = "Employee Updated Successfuly";
                         return RedirectToAction(nameof(Index));
@@ -68,7 +72,7 @@ namespace ASP.NET_Core_03.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
             }
-            return View(employee);
+            return View(employeeVM);
         }
         public IActionResult Delete(int? id) => EmployeeContollorModeler(id, nameof(Delete));
 
@@ -105,6 +109,22 @@ namespace ASP.NET_Core_03.Controllers
             if (!id.HasValue) return BadRequest();
             var employee = _employeeRepository.Get(id.Value);
             if (employee is null) return NotFound();
+            //var employeeVM = new EmployeeViewModel
+            //{
+            //    Address = employee.Address,
+            //    Department = employee.Department,
+            //    Age = employee.Age,
+            //    DepartmentId = employee.DepartmentId,
+            //    Email = employee.Email,
+            //    Id = employee.Id,
+            //    IsActive = employee.IsActive,
+            //    Name = employee.Name,
+            //    Phone = employee.Phone,
+            //    Salary = employee.Salary
+
+            //};
+            var employeeVM = _mapper.Map<EmployeeViewModel>(employee);
+
             return View(viewName, employee);
         }
     }

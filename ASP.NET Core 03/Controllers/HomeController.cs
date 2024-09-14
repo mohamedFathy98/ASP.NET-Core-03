@@ -1,5 +1,4 @@
-using ASP.NET_Core_03.Models;
-using Microsoft.AspNetCore.Mvc;
+
 using System.Diagnostics;
 
 namespace ASP.NET_Core_03.Controllers
