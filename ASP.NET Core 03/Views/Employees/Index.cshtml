@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<EmployeeViewModel>
 @{
     ViewData["Title"] = "Index";
     // var employees = @ViewData["Message"] as Employee;
@@ -11,17 +11,25 @@
 <div>
     <a class="btn btn-primary mt-2" asp-action="Create">Create New Employee</a>
 </div>
+<h1 class="text-center ">All Emplyees</h1>
+<div>
+    <form asp-action="Index" method="get" class="d-flex mt-2 " role="search">
+        <input class="form-control mx-2 w-75" type="search" placeholder="Search" aria-label="Search" name="searchValue" required>
+        <button class="btn btn-outline-success " type="submit">Search</button>
+    </form>
+</div>
 @if (Model.Any())
 {
-    <h1 class="text-center ">All Emplyees</h1>
+    
     <table class="table mt-3 table-bordered table-hover">
         <thead>
             <tr>
 
-                
+                <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Image)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Name)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Age)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Salary)</th>
+                <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Department)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Address)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Email)</th>
                 <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Phone)</th>
@@ -36,10 +44,11 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    
+                    <td><img src="~/Files/Image/@item.ImageName" class="w-50 h-50 rounded" /></td>
                     <td>@item.Name</td>
                     <td>@item.Age</td>
                     <td>@Html.DisplayFor(e=>item.Salary)</td>
+                    <td>@item.Department?.Name</td>
                     <td>@item.Address</td>
                     <td>@Html.DisplayFor(e => item.Email)</td>
                     

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.Models
+﻿
+namespace ASP.NET_Core_03.ViewModels
 {
-    public class Employee
+    public class EmployeeViewModel
     {
+
         public int Id { get; set; }
         [StringLength(maximumLength: 30, MinimumLength = 2)]
         public string Name { get; set; }
@@ -21,10 +16,10 @@ namespace DataAccessLayer.Models
         public string Email { get; set; }
         [Phone]
         public string Phone { get; set; }
-        public string? ImageName { get; set; }
         public bool IsActive { get; set; }
+        public IFormFile? Image { get; set; }
+        public string? ImageName { get; set; }
         public Department? Department { get; set; }
         public int? DepartmentId { get; set; }
-
     }
 }

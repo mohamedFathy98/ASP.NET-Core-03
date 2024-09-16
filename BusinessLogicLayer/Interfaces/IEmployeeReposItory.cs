@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IEmployeeReposItory : IGenaricRepository<Employee>
     {
-        public IEnumerable<Employee> GetAll(string Address);
+        public IEnumerable<Employee> GetAll(string name);
+        IEnumerable<Employee> GetAllwithDepartment();
     }
 }

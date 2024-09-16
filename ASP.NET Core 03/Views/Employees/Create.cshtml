@@ -1,10 +1,10 @@
-﻿@model Employee
+﻿@model EmployeeViewModel
 @{
     ViewData["Title"] = "Create";
 }
 
 <h1 class="mt-2">Create New Employee</h1>
-<form class="mt-3 shadow" asp-action="Create">
+<form class="mt-3 shadow" asp-action="Create" enctype="multipart/form-data">
 
     <partial name="PartialView/CreatEditPartial"></partial>
     <div class="mt-2 ms-2">
@@ -12,6 +12,8 @@
         <a class="btn btn-danger ms-2" asp-action="Index">Cancel</a>
     </div>
 </form>
+
+
 @section Validation {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
