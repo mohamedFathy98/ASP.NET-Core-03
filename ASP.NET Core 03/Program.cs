@@ -1,6 +1,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Repositories;
 using DataAccessLayer.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -22,12 +23,15 @@ namespace ASP.NET_Core_03
 
             builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
 
-            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            //builder.Services.AddScoped<IEmployeeReposItory, EmployeeReposItory>(); 
             builder.Services.AddScoped<IUnitOfWork, UintOfWork>();
-            //builder.Services.AddScoped<IGenaricRepository<Department>, GenaricRepository<Department>>();
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<DataContext>()
+				.AddDefaultTokenProviders();
 
-            var app = builder.Build();
+			//builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+			//builder.Services.AddScoped<IEmployeeReposItory, EmployeeReposItory>(); 
+			//builder.Services.AddScoped<IGenaricRepository<Department>, GenaricRepository<Department>>();
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -41,8 +45,8 @@ namespace ASP.NET_Core_03
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            //app.UseAuthorization();
+			app.UseAuthentication();
+			app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
