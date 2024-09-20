@@ -1,12 +1,14 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Repositories;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ASP.NET_Core_03.Controllers
 {
-    public class EmployeesController : Controller
+	[Authorize]
+	public class EmployeesController : Controller
     {
 
 
@@ -22,12 +24,15 @@ namespace ASP.NET_Core_03.Controllers
         }
 
 
-        //public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
-        //{
-        //    _employeeRepository = employeeRepository;
-        //    _departmentRepository = departmentRepository;
-        //}
-        public IActionResult Index(string? searchValue)
+		//public EmployeesController(IEmployeeReposItory employeeRepository, IDepartmentRepository departmentRepository)
+		//{
+		//    _employeeRepository = employeeRepository;
+		//    _departmentRepository = departmentRepository;
+		//}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult Index(string? searchValue)
         {
             //ViewData => Dictionary<String.Object>
             // ViewData["Message"] = new Employee { Name="Loolz"};
@@ -45,7 +50,7 @@ namespace ASP.NET_Core_03.Controllers
             var employeeviewmodel = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
             return View(employeeviewmodel);
         }
-        [IgnoreAntiforgeryToken]
+        
         public IActionResult Create(EmployeeViewModel employeeVM)
         {
             if (!ModelState.IsValid) return View(employeeVM);
