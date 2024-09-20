@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <ul class="nav justify-content-center  mt-2 bg-body-tertiary">
+        <li class="nav-item">
+            <a class="  btn btn-danger " href="/Home/Index">Home</a>
+        </li>
+        <li class="nav-item ms-3">
+            <a class="  btn  btn-info " href="/Home/AboutUs">About Us</a>
+        </li>
+        <li class="nav-item ms-3">
+            <a class=" btn  btn-success " href="/Home/Privacy">Privacy</a>
+        </li>
+        <li class="nav-item ms-3">
+            <a class=" btn  btn-success " href="/Home/ContactUs">Contact Us</a>
+        </li>
+        @*Tag Helper*@
+        <li class="nav-item">
+            <a class="nav-link" asp-Controller="Home" asp-action="Index">Home</a>
+        </li>
+        @*Header*@
+    </ul>
+    <div>
+        @RenderBody()
+    </div>
+
+    <footer>
+        <div class="mt-4 p-4 justify-content-center text-center fixed-bottom bg-black">
+            <p>CopyRight @DateTime.Now.Year</p>
+        </div>
+    </footer>
+</body>
+</html>
