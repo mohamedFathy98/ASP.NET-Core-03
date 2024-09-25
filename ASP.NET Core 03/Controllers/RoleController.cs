@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET_Core_03.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
             private readonly UserManager<ApplicationUser> _userManager;

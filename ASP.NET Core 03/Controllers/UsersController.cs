@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET_Core_03.Controllers
 {
-	public class UsersController : Controller
+    [Authorize(Roles = "Admin")]
+    public class UsersController : Controller
 	{
-		//[Authorize(Roles = "Admin")]
+        
 
-		private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 		public UsersController(UserManager<ApplicationUser> userManager)
 		{
