@@ -12,6 +12,6 @@ namespace BusinessLogicLayer.Interfaces
         public IEmployeeReposItory Employees { get; }
         public IDepartmentRepository Departments { get; }
 
-        public int SavaChanages();
-    }
+		public Task<int> SavaChanagesAsync();
+	}
 }

@@ -8,10 +8,10 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IGenaricRepository<TEntity> where TEntity : class
     {
-        void Create(TEntity entity);
+        Task AddAsync(TEntity entity);
         void Delete(TEntity entity);
-        TEntity? Get(int id);
-        IEnumerable<TEntity> GetAll();
-        void Update(TEntity entity);
+		Task<TEntity?> GetAsync(int id);
+		Task<IEnumerable<TEntity>> GetAllAsync();
+		void Update(TEntity entity);
     }
 }

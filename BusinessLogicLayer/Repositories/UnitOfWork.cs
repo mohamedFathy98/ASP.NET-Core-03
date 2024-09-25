@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.Repositories
 
 
 
-        public int SavaChanages() => _dataContext.SaveChanges();
+		public async Task<int> SavaChanagesAsync() => await _dataContext.SaveChangesAsync();
 
-    }
+	}
 }

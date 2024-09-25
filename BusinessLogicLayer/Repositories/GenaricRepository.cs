@@ -18,22 +18,12 @@ namespace BusinessLogicLayer.Repositories
             _dbSet = _dataContext.Set<TEntity>();
         }
 
-        public void Create(TEntity entity) => _dbSet.Add(entity);
+		public async Task AddAsync(TEntity entity) => await _dbSet.AddAsync(entity);
+		public void Delete(TEntity entity) => _dbSet.Remove(entity);
+		public async Task<TEntity?> GetAsync(int id) => await _dbSet.FindAsync(id);
+		public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+		public void Update(TEntity entity) => _dbSet.Update(entity);
 
 
-
-        public void Delete(TEntity entity) => _dbSet.Remove(entity);
-
-
-
-        public TEntity? Get(int id) => _dbSet.Find(id);
-
-
-        public IEnumerable<TEntity> GetAll() => _dbSet.ToList();
-
-
-        public void Update(TEntity entity) => _dbSet.Update(entity);
-
-
-    }
+	}
 }
