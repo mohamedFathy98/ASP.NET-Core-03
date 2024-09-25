@@ -16,14 +16,11 @@ namespace BusinessLogicLayer.Repositories
         {
 
         }
-        public IEnumerable<Employee> GetAll(string name)
-        {
-            return _dbSet.Where(e => e.Name.ToLower().Contains(name.ToLower())).Include(e => e.Department).ToList();
-        }
+		public async Task<IEnumerable<Employee>> GetAllAsync(string name)
+	  => await _dbSet.Where(e => e.Name.ToLower().Contains(name.ToLower())).Include(e => e.Department).ToListAsync();
 
-        public IEnumerable<Employee> GetAllwithDepartment()
-        {
-            return _dbSet.Include(e => e.Department).ToList();
-        }
-    }
+
+		public async Task<IEnumerable<Employee>> GetAllwithDepartmentAsync()
+		=> await _dbSet.Include(e => e.Department).ToListAsync();
+	}
 }

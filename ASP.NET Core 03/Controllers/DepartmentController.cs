@@ -18,7 +18,7 @@ namespace ASP.NET_Core_03.Controllers
         public IActionResult Index()
         {
             //retrieve All departments
-            var department = _Rep.GetAll();
+            var department = _Rep.GetAllAsync();
 
             return View(department); //All dep
         }
@@ -32,20 +32,12 @@ namespace ASP.NET_Core_03.Controllers
         {
             //server side validation
             if (!ModelState.IsValid) return View(department);
-            _Rep.Create(department);
+            _Rep.AddAsync(department);
             return RedirectToAction(nameof(Index));
         }
-
-
-        public IActionResult Details(int? id)=> DepartmentControlHandler(id, nameof(Details));
+        public async Task<IActionResult> Details(int? id)=> await DepartmentControlHandler(id, nameof(Details));
        
-        
-      
-        public IActionResult Edit(int? id) => DepartmentControlHandler(id, nameof(Edit));
-
-
-
-
+        public async Task<IActionResult> Edit(int? id) => await DepartmentControlHandler(id, nameof(Edit));
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, Department department)
@@ -65,7 +57,7 @@ namespace ASP.NET_Core_03.Controllers
             }
             return View(department);
         }
-        public IActionResult Delete(int? id) => DepartmentControlHandler(id , nameof(Delete));
+		public async Task<IActionResult> Delete(int? id) => await DepartmentControlHandler(id , nameof(Delete));
 
         //[HttpPost]
         //public IActionResult Delete([FromRoute] int id, Department department)
@@ -87,11 +79,11 @@ namespace ASP.NET_Core_03.Controllers
         //}
 
         [HttpPost , ActionName("Delete")]
-        public IActionResult ConfirmDelete(int? id) 
+        public async Task<IActionResult> ConfirmDelete(int? id) 
 
         {
             if (!id.HasValue) return BadRequest();
-            var department = _Rep.Get(id.Value);
+            var department = await _Rep.GetAsync(id.Value);
             if (department is null) return NotFound();
 
             try {
@@ -106,11 +98,11 @@ namespace ASP.NET_Core_03.Controllers
             return View(department);
         }
 
-        private IActionResult DepartmentControlHandler(int? id , string viewName)
+        private async Task<IActionResult> DepartmentControlHandler(int? id , string viewName)
         {
 
             if (!id.HasValue) return BadRequest();
-            var department = _Rep.Get(id.Value);
+            var department = await _Rep.GetAsync(id.Value);
             if (department is null) return NotFound();
             return View(viewName, department);
         }
