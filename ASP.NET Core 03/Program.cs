@@ -27,11 +27,15 @@ namespace ASP.NET_Core_03
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<DataContext>()
 				.AddDefaultTokenProviders();
 
-			//builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-			//builder.Services.AddScoped<IEmployeeReposItory, EmployeeReposItory>(); 
-			//builder.Services.AddScoped<IGenaricRepository<Department>, GenaricRepository<Department>>();
+            builder.Services.ConfigureApplicationCookie(config => {
 
-			var app = builder.Build();
+            });
+
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //builder.Services.AddScoped<IEmployeeReposItory, EmployeeReposItory>(); 
+            //builder.Services.AddScoped<IGenaricRepository<Department>, GenaricRepository<Department>>();
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
