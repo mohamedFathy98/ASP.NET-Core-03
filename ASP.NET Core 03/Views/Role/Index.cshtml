@@ -1,0 +1,48 @@
+﻿@model IEnumerable<RoleViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <a class="btn btn-primary mt-2" asp-action="Create">Create New Role</a>
+</div>
+<div>
+    <form asp-action="Index" method="get" class="d-flex mt-2 " role="search">
+        <input class="form-control mx-2 w-75" type="search" placeholder="Search" aria-label="Search" name="searchValue" required>
+        <button class="btn btn-outline-success " type="submit">Search</button>
+    </form>
+</div>
+<table class="table mt-3 table-bordered table-hover">
+    <thead>
+        <tr>
+
+
+            <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Id)</th>
+            <th scope="col" class="text-center">@Html.DisplayNameFor(e => e.Name)</th>
+
+
+            <th scope="col" class="text-center">Details</th>
+
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+
+
+                <partial name="_ButtonsPartialView" Model="@item.Id">
+
+                </partial>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
